@@ -28,7 +28,7 @@ class Application(tk.Tk):
         # ------------------------------------MAIN WINDOW CUSTOMIZATION-------------------------------------------------
         self.title('GoofyCoder Utility Application')  # Window title
         self.geometry('830x570+200+50')  # Window size in width and height then position on the screen
-        self.iconbitmap("images/goofy_coder.ico")  # Window icon
+        self.iconbitmap("images/goofycoder_icon.ico")  # Window icon
         self.minsize(830, 570)  # Window minimum size
         self.config(bg=theme_color)  # Configure window background color
         # self.overrideredirect(True)
@@ -62,21 +62,21 @@ class Application(tk.Tk):
         main_logo_img = tk.PhotoImage(file="images/Goofy-Coder-Banner.png")
         python_icon_img = tk.PhotoImage(file="images/py_icon.png")
         exit_image = tk.PhotoImage(file="images/exit_icon.png")
-        current_user_img = tk.PhotoImage(file="images/current_user_icon.png")
+        goofycoder_icon = tk.PhotoImage(file="images/goofycoder_icon.png")
 
         # -------------------------------------------TIME AND LOGOS SECTION---------------------------------------------
         time_and_logo = tk.Frame(self, bg=theme_color)  # Create the frame to hold the digital time and top buttons
         time_and_logo.pack(fill=tk.X)
 
         # -----This is button serve as a link to the main page and logo for goofycoder
-        goofy_main_button = tk.Button(time_and_logo, image=main_logo_img, bg=theme_color, relief='flat', bd=0,
+        goofy_main_button = tk.Button(time_and_logo, image=goofycoder_icon, bg=theme_color, relief='flat', bd=0,
                                       activebackground="#CCBF99", command=lambda: self.show_frame(SnippetsPage))
-        goofy_main_button.image = main_logo_img
+        goofy_main_button.image = goofycoder_icon
         goofy_main_button.pack(side='left', padx=20, pady=10)
 
         # -----Bind button to change color when mouse hover on it
         goofy_main_button.bind('<Enter>', lambda e: goofy_main_button.config(bg="#DDD7A6"))
-        goofy_main_button.bind('<Leave>', lambda e: goofy_main_button.config(bg="#CCBF98"))
+        goofy_main_button.bind('<Leave>', lambda e: goofy_main_button.config(bg=theme_color))
 
         # -----Function to iterate through time and configure the time display label
         def clock_it(label):
@@ -113,15 +113,11 @@ class Application(tk.Tk):
         python_icon.pack(side=tk.RIGHT)
 
         # -----Current user button with icon
-        current_user_icon = tk.Button(current_user_frame, image=current_user_img, bg=theme_color, relief='flat', bd=0,
+        current_user_icon = tk.Button(current_user_frame, image=goofycoder_icon, bg=theme_color, relief='flat', bd=0,
                                       activebackground="#CCBF99")
-        current_user_icon.image = current_user_img
+        current_user_icon.image = goofycoder_icon
         current_user_icon.pack()
 
-        # -----Label for current username
-        current_username = tk.Label(current_user_frame, text=f"----------------", bg=theme_color,
-                                    font=("helvetica", 12))
-        current_username.pack(pady=0)
         # ---------------------------------------ALL PROGRAM PAGES SECTION----------------------------------------------
         container = tk.Frame(self)  # Create main frame
         container.pack(side='top', fill='both', expand=True)
