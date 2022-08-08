@@ -535,7 +535,8 @@ class SnippetsPage(tk.Frame):
         snippet_id_label.pack(side='left')
 
         # ----- Snippet id area entry -----
-        snippet_id = tk.Entry(search_frame, relief="flat", bg=theme_color, font=("helvetica", 12))
+        snippet_id = tk.Entry(search_frame, relief="flat", bg=theme_color, font=("helvetica", 14),
+                              fg='#00ff00')
         snippet_id.pack(side='left')
 
         # ----- Main frame to hold listbox and textbox
