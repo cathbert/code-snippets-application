@@ -253,12 +253,17 @@ class SnippetsPage(tk.Frame):
 
             # ----- Get snippet code from the data pulled from the database snippet entry
             title = snippet[1]
+            db.add_to_recent(title)
             code = snippet[2]
 
             # ----- Insert the code data into text area to display it
 
             snippets_display_screen.insert(tk.END, "\n")
             snippets_display_screen.insert(tk.END, code)
+            
+            recent_snippet_list.delete(0,tk.END)
+            for rsnippet in db.fetch_recents():
+                recent_snippet_list.insert(tk.END, rsnippet)
 
             # ----- Display snippet id in the entry area in this case, snippet id area
             snippet_id.insert(0, iid)
@@ -324,16 +329,21 @@ class SnippetsPage(tk.Frame):
 
             # ----- First delete the snippets list
             snippets_list.delete(0, tk.END)
+            recent_snippet_list.delete(0, tk.END)
 
             # ----- Now iterate and insert snippets into the list
             for snippet in snippets:
                 snippets_list.insert(tk.END, snippet)
+            
+            for fetched in db.fetch_recents():
+                recent_snippet_list.insert(tk.END, fetched)
 
         # ----- Search the database for only a single snippet
         def search_snippet(_=None):
             try:
                 # ----- Get whatever name displayed in the search area
                 title = search.get()
+                db.add_to_recent(title)
 
                 # ----- Search database for the required snippet using the name/title
                 snippet = db.search_snippet(title)
@@ -538,14 +548,20 @@ class SnippetsPage(tk.Frame):
         # ----- Main frame to hold listbox and textbox
         main_frame = tk.Frame(self, bg=theme_color, padx=5, pady=8)
         main_frame.pack(fill='both', expand=True)
-
+        
+        snippets_list_and_recents_frame = tk.Frame(main_frame)
+        snippets_list_and_recents_frame.pack(side='left', fill=tk.Y)
+        
         # ---- Create scrollbar for the listbox
         snippets_list_scrollbar = tk.Scrollbar(main_frame)
 
         # ----- Listbox to display all snippets
-        snippets_list = tk.Listbox(main_frame, height=40, width=40, bg=theme_color, fg="yellow",
+        snippets_list = tk.Listbox(snippets_list_and_recents_frame, width=40, bg=theme_color, fg="yellow",
                                    yscrollcommand=snippets_list_scrollbar.set, font=("verdana", 10))
-        snippets_list.pack(side='left', fill=tk.Y)
+        snippets_list.pack(side=tk.TOP, fill=tk.Y, expand=True)
+        
+        recent_snippet_list = tk.Listbox(snippets_list_and_recents_frame, height=8, width=40)
+        recent_snippet_list.pack(side=tk.BOTTOM)
 
         # ----- Update the snippets list with database contents
         update(db.get_all_snippets())
@@ -553,6 +569,9 @@ class SnippetsPage(tk.Frame):
         # ----- Snippets list bindings
         snippets_list.bind("<<ListboxSelect>>", fill_out)
         snippets_list.bind('<Return>', search_snippet)
+        
+        recent_snippet_list.bind("<<ListboxSelect>>", fill_out)
+        recent_snippet_list.bind('<Return>', search_snippet)
 
         # ----- Snippets list scrollbar
         snippets_list_scrollbar.pack(side='left', fill='y')

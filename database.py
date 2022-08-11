@@ -13,7 +13,7 @@ class Database:
         try:
             # connect to database
             self.connect = sqlite3.connect('GoofyUtilityDatabase.db')
-
+            
             # initialize a cursor to handle all executions
             self.cursor = self.connect.cursor()
 
@@ -34,6 +34,27 @@ class Database:
             return "failure"
         except sqlite3.IntegrityError as e:
             return 'exists'
+        
+    def add_to_recent(self, title):
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS recents (title TEXT UNIQUE)")
+        try:
+            data = self.cursor.execute("SELECT * FROM recents")
+            if len(data.fetchall()) == 6:
+                t = self.cursor.execute("SELECT * FROM recents ORDER BY title ASC LIMIT 1")
+                self.cursor.execute("DELETE FROM recents WHERE title=?",(t.fetchall()[0][0],))
+                
+                self.cursor.execute("INSERT INTO recents (title) VALUES (?)", (title,))
+                self.connect.commit()
+            else:
+                self.cursor.execute("INSERT INTO recents (title) VALUES (?)", (title,))
+                self.connect.commit()
+             
+        except sqlite3.IntegrityError as e:
+            pass
+        
+    def fetch_recents(self):
+        t = self.cursor.execute("SELECT * FROM recents ORDER BY title ASC")
+        return [i[0] for i in t.fetchall()]
 
     def delete_snippet(self, title):
         self.cursor.execute("DELETE FROM snippet WHERE title=?", (title,))
@@ -80,5 +101,3 @@ class Database:
     def __del__(self):
         self.cursor.close()
         self.connect.close()
-
-
