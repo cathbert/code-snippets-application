@@ -39,7 +39,7 @@ class Database:
         self.cursor.execute("CREATE TABLE IF NOT EXISTS recents (title TEXT UNIQUE)")
         try:
             data = self.cursor.execute("SELECT * FROM recents")
-            if len(data.fetchall()) == 6:
+            if len(data.fetchall()) >= 6:
                 t = self.cursor.execute("SELECT * FROM recents ORDER BY title ASC LIMIT 1")
                 self.cursor.execute("DELETE FROM recents WHERE title=?",(t.fetchall()[0][0],))
                 

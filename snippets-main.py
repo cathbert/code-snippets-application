@@ -322,10 +322,10 @@ class SnippetsPage(tk.Frame):
                         data.append(item)
 
             # ----- Finally update the snippets list
-            update(data)
+            update(data, db.fetch_recents())
 
         # ----- This function sorely get data and update the snippets list
-        def update(snippets):
+        def update(snippets, recents):
 
             # ----- First delete the snippets list
             snippets_list.delete(0, tk.END)
@@ -335,7 +335,7 @@ class SnippetsPage(tk.Frame):
             for snippet in snippets:
                 snippets_list.insert(tk.END, snippet)
             
-            for fetched in db.fetch_recents():
+            for fetched in recents:
                 recent_snippet_list.insert(tk.END, fetched)
 
         # ----- Search the database for only a single snippet
@@ -364,7 +364,7 @@ class SnippetsPage(tk.Frame):
                 snippet_id.insert(0, sid)
 
                 # Finally update the snippets list with new database contents, adding the new snippet to snippets list
-                update(db.get_all_snippets())
+                update(db.get_all_snippets(), db.fetch_recents())
 
             except TypeError:
                 messagebox.showerror("None type", "You are trying to search for an empty field!")
@@ -395,7 +395,7 @@ class SnippetsPage(tk.Frame):
 
                         # Finally update the snippets list with new database contents, adding the new snippet to
                         # snippets list
-                        update(db.get_all_snippets())
+                        update(db.get_all_snippets(), db.fetch_recents())
                         snippets_count_label.config(
                             text=f"Snippets avail: {len(db.get_all_snippets())}")
 
@@ -419,7 +419,7 @@ class SnippetsPage(tk.Frame):
 
             # ----- Check status message if its true then proceed to update the snippets list
             if update_status:
-                update(db.get_all_snippets())
+                update(db.get_all_snippets(), db.fetch_recents())
                 messagebox.showinfo("Success", "Snippet update successful!")
             else:
                 messagebox.showwarning("Failure", "Snippet update unsuccessful!")
@@ -564,7 +564,7 @@ class SnippetsPage(tk.Frame):
         recent_snippet_list.pack(side=tk.BOTTOM)
 
         # ----- Update the snippets list with database contents
-        update(db.get_all_snippets())
+        update(db.get_all_snippets(), db.fetch_recents())
 
         # ----- Snippets list bindings
         snippets_list.bind("<<ListboxSelect>>", fill_out)
