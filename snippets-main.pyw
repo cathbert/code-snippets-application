@@ -30,6 +30,9 @@ class Application(ThemedTk):
         ThemedTk.__init__(self, *args, **kwargs, fonts=True, themebg=True)  # initialize the inherited tkinter library
         theme_color = '#004D54'  # Set theme color
         self.set_theme("arc")
+
+        
+
         # ------------------------------------MAIN WINDOW CUSTOMIZATION-------------------------------------------------
         self.title('Ephitome Snippets Pro')  # Window title
         self.geometry('830x570+200+50')  # Window size in width and height then position on the screen
@@ -39,18 +42,18 @@ class Application(ThemedTk):
         # self.overrideredirect(True)
 
         # -------------------------------------------MENU SECTION-------------------------------------------------------
-        my_menu = Menu(self)  # Initialize
+        my_menu = Menu(self, background=theme_color, borderwidth=2, relief=tk.GROOVE)  # Initialize
         self.config(menu=my_menu)
 
         # Create a menu item
-        file_menu = Menu(my_menu)
-        my_menu.add_cascade(label="File", menu=file_menu)
+        file_menu = Menu(my_menu, tearoff=False, background=theme_color, fg="#ffff00")
+        my_menu.add_cascade(label="File", menu=file_menu, background=theme_color,)
         file_menu.add_command(label="New...")
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.quit)
 
         # Create an edit menu item
-        edit_menu = Menu(my_menu)
+        edit_menu = Menu(my_menu, tearoff=False, background=theme_color, fg="#ffff00")
         my_menu.add_cascade(label="Pages", menu=edit_menu)
         edit_menu.add_command(label="Contacts")
         edit_menu.add_command(label="Dictionary")
@@ -58,7 +61,7 @@ class Application(ThemedTk):
         edit_menu.add_command(label="Comprehensive Notes")
 
         # Create an Options menu item
-        option_menu = Menu(my_menu)
+        option_menu = Menu(my_menu, tearoff=False, background=theme_color, fg="#ffff00")
         my_menu.add_cascade(label="About GoofyCoder Utility Application", menu=option_menu)
         option_menu.add_command(label="Info")
         option_menu.add_command(label="GoofyCoder Info")
@@ -75,7 +78,7 @@ class Application(ThemedTk):
 
         # -----This is button serve as a link to the main page and logo for goofycoder
         ephitome_main_button = tk.Button(time_and_logo, image=goofycoder_icon, activebackground=theme_color, bg=theme_color, relief='flat', bd=0,
-                                      text='ETG Studios', font=('Verdana', 6, 'bold') , compound='center',command=lambda: self.show_frame(SnippetsPage))
+                                      text='ETG Studios', fg='#00ff00', font=('Verdana', 8, 'bold') , compound='center',command=lambda: self.show_frame(SnippetsPage))
         ephitome_main_button.image = goofycoder_icon
         ephitome_main_button.pack(side='left')
 
