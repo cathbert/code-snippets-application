@@ -508,10 +508,10 @@ class SnippetsPage(tk.Frame):
 
         # ----- Clear snippet button
         search.bind('<Return>', search_snippet)
-        search_btn_img = tk.PhotoImage(file="images/search_btn_img.png")
+        search_btn_img = tk.PhotoImage(file="icons/import.png")
 
         # ----- Search snippet button
-        search_snippet_button = tk.Button(search_frame, bg=theme_color, bd=0, command=search_snippet)
+        search_snippet_button = tk.Button(search_frame, bg=theme_color, activebackground=theme_color, bd=0, command=search_snippet)
         search_snippet_button.image = search_btn_img
         search_snippet_button.pack(side='left')
 
@@ -519,7 +519,7 @@ class SnippetsPage(tk.Frame):
         search.bind("<KeyRelease>", check)
 
         # ----- Get new snippet button
-        get_new_snippet_button = tk.Button(search_frame, image=search_btn_img, bg=theme_color, bd=0, command=new_file)
+        get_new_snippet_button = tk.Button(search_frame, activebackground=theme_color, image=search_btn_img, bg=theme_color, bd=0, command=new_file)
         get_new_snippet_button.image = search_btn_img
         get_new_snippet_button.pack(side='left')
 
