@@ -1,28 +1,22 @@
 
 from tkinter import *
-from PIL import ImageTk,Image
-
+from PIL import ImageTk,Image 
 
 root = Tk()
-root.title('Codemy.com Image Viewer')
+root.title('Learn To Code at Codemy.com')
 
-root.geometry("400x400")
+button_quit = Button(root, text="Exit", command=root.quit)
 
-vertical = Scale(root, from_=0, to=200)
-vertical.pack()
-
-def slide():
-	my_label = Label(root, text=horizontal.get()).pack()
-	root.geometry(str(horizontal.get()) + "x" + str(vertical.get()))
-
-horizontal = Scale(root, from_=0, to=400, orient=HORIZONTAL)
-horizontal.pack()
-
-my_label = Label(root, text=horizontal.get()).pack()
+img = ImageTk.PhotoImage(Image.open("aspen.png"))  
+label = Label(image=img)
+label.pack()
 
 
+button_quit.pack()
+t = Text(root, height=5, width=30)
+t.insert(END, "What the Fuck!\nChuck!")
+#t.pack()
 
-my_btn = Button(root, text="Click Me!", command=slide).pack()
 
 root.mainloop()
 
